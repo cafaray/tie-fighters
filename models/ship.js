@@ -60,24 +60,31 @@ function shipModel () {
   }
 
   function read (id, cb) {
-    if (!(db.hasOwnProperty(id))) {
-      const err = Error('ship not found')
-      err.code = 'E_NOT_FOUND'
-      setImmediate(() => cb(err))
-      return
-    }
-    setImmediate(() => cb(null, db[id]))
+    db.forEach((row, index) => {
+      if (row['id']===id) {
+        setImmediate(() => cb(null, db[index]))
+        return
+      }
+    })    
+    const err = Error('ship not found')
+    err.code = 'E_NOT_FOUND'
+    setImmediate(() => cb(err))
+    return    
   }
-
+  
   function update (id, data, cb) {
-    if (!(db.hasOwnProperty(id))) {
-      const err = Error('ship not found')
-      err.code = 'E_NOT_FOUND'
-      setImmediate(() => cb(err))
-      return
-    }
-    db[id] = data
-    setImmediate(() => cb())
+    db.forEach((row, index) => {
+      if (row['id']===id){
+        console.debug(`id found: ${id}`)
+        db[index] = data
+        setImmediate(() => cb(null, db[index]))
+        return
+      }
+    })    
+    const err = Error('ship not found')
+    err.code = 'E_NOT_FOUND'
+    setImmediate(() => cb(err))
+    return    
   }
 
   function del (id, cb) {

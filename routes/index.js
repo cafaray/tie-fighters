@@ -1,6 +1,6 @@
 'use strict'
 
-const {getShips, postShip} = require('../handlers/ships')
+const {getShips, postShip, getShip, landShip, shipShoot} = require('../handlers/ships')
 
 const shipSchema = {
     type: 'object',
@@ -15,6 +15,41 @@ const shipSchema = {
     }
 }
 
+const optsGetShip = {
+    schema: {
+        response: {
+            200: {
+                type: 'object',
+                properties: { type: shipSchema }
+            }
+        }
+    }, 
+    handler: getShip
+}
+
+const optsLandShip = {
+    schema: {
+        response: {
+            200: {
+                type: 'object',
+                properties: { type: shipSchema }
+            }
+        }
+    },
+    handler: landShip
+}
+
+const optsShipShoot = {
+    schema: {
+        response: {
+            200: {
+                type: 'object',
+                properties: { type: shipSchema }
+            }
+        }
+    },
+    handler: shipShoot
+}
 
 const optsGetShips = {
     schema: {
@@ -62,5 +97,8 @@ const optsPostShip = {
 module.exports = async function (fastify, opts, done) {
     fastify.get('/tie-fighters', optsGetShips)
     fastify.post('/tie-fighters', optsPostShip)
+    fastify.get('/tie-fighters/:id', optsGetShip)
+    fastify.put('/tie-fighters/:id/land', optsLandShip)
+    fastify.put('/tie-fighters/:id/shoot', optsShipShoot)
     done()
 }
