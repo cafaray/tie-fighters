@@ -1,0 +1,9 @@
+{
+  "data": {
+    "model": "TIE-Fighter",
+    "bullets": 9,
+    "landed": false,
+    "pilot": "Mr Death",
+    "alias": "Grey-Killer"
+  } 
+}
